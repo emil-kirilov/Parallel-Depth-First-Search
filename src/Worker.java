@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Worker implements Runnable {
 	public static int nVertices;
 	private static Deque<Integer> stack = new ConcurrentLinkedDeque<Integer>();
-	private static Set<Integer> stack_contains = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>(Worker.nVertices));
+	private static Set<Integer> stackContains = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>(Worker.nVertices));
 	private static Set<Integer> traversed = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>(nVertices));
 	private long started;
 	private int id;
@@ -33,8 +33,6 @@ public class Worker implements Runnable {
     public Worker(int id) {
         this.started = System.currentTimeMillis();
     	this.id = id;
-//    	this.firstUntraversed = firstUntraversed;
-//        this.matrix = matrix;
     }
     
     @Override
@@ -53,15 +51,15 @@ public class Worker implements Runnable {
        			if(	Worker.traversed.contains(current) ){
 	           		break;
 	           	} else {
-	           		Integer neighbour = Worker.matrix.get(current).poll();
+	           		Integer kid = Worker.matrix.get(current).poll();
 	           		if( Worker.matrix.get(current).isEmpty() ) {
 	           			Worker.traversed.add(current);
 	    	           	System.out.println(current);
 	           		}
-	           		if( !stack_contains.contains(current) ){
+	           		if( !stackContains.contains(current) ){
 	           			Worker.stack.add(current);
 	           		}
-	           		current = neighbour;
+	           		current = kid;
 	            }
         	}
 

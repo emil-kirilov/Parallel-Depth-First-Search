@@ -65,7 +65,7 @@ public class Main {
 				}
 				
 				long preProccesing = System.currentTimeMillis() - start;
-				System.out.println("Build up time -> " + preProccesing);
+				System.out.println("Build up time -> " + preProccesing +"ms");
 
 				
 				AtomicInteger firstUntraversed = new  AtomicInteger(0);
