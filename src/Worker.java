@@ -21,6 +21,14 @@ public class Worker implements Runnable {
 	public static void setNVertices(int n) {
 		nVertices = n;
 	}
+	
+	public static void setFirstUntraversed(AtomicInteger fU) {
+		firstUntraversed = fU;
+	}
+	
+	public static void setMatrix(HashMap<Integer, Queue<Integer>> m) {
+		matrix = m;
+	}
 
     public Worker(int id) {
         this.started = System.currentTimeMillis();

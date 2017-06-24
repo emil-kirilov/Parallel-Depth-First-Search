@@ -45,7 +45,6 @@ public class Main {
 
 				br = new BufferedReader(new FileReader(filename));
 				int n = Integer.parseInt(br.readLine());
-				boolean[][] n_matrix = new boolean[n][n];
 				HashMap<Integer, Queue<Integer>> matrix = new HashMap<Integer, Queue<Integer>>(n);
 				
 				int row = 0;
@@ -65,26 +64,29 @@ public class Main {
 					row++;
 				}
 				
-				System.out.println("Build up time -> " + (System.currentTimeMillis() - start) );
+				long preProccesing = System.currentTimeMillis() - start;
+				System.out.println("Build up time -> " + preProccesing);
 
 				
 				AtomicInteger firstUntraversed = new  AtomicInteger(0);
 				
 				Worker.setNVertices(n);
+				Worker.setFirstUntraversed(firstUntraversed);
+				Worker.setMatrix(matrix);
+
 				ExecutorService service = Executors.newFixedThreadPool(threadCount);
 				
 				for (int i = 0; i < threadCount; i++) {
-		            Worker w = new Worker(i, firstUntraversed, matrix);
+		            Worker w = new Worker(i);
 		            service.execute(w);
 		        }
-				
+
 				try {
 					service.awaitTermination( 2000, TimeUnit.NANOSECONDS);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("eeeee");
 			} catch (IOException e) { 
 				e.printStackTrace();
 			} finally {
